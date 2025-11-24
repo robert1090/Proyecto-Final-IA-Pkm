@@ -1,7 +1,13 @@
 # Proyecto-de-Final-IA
 
-## Nombre
+## Nombre:
+### Robert Avila Betancour
+---
 
-## Matrícula
+## Matrícula:
+### 23-SISN-2-001
+---
 
-## Proyecto
+## Proyecto:
+### Proyecto Final - Agente Pokemon
+---
