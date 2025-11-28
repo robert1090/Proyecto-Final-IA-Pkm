@@ -4,12 +4,18 @@
 import time
 import requests
 import vgamepad as vg
-import pygetwindow as gw
 import base64
 import pyautogui
 
 #Inicializacion del mando virtual para controlar el emulador
-gamepad = vg.VX360Gamepad()
+def control():
+    for i in range(5):
+        try:
+            return vg.VX360Gamepad()
+        except AssertionError:
+            time.sleep(1)
+
+gamepad = control()
 
 #Dimensiones del emulador en pantalla
 screen = (634, 48, 654, 980)

@@ -1,0 +1,3 @@
+pyautogui
+vgamepad
+tkinter
