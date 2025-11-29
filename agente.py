@@ -139,8 +139,16 @@ def opciones(action):
 
 def agente():
     #Funcion que realizara el bucle de captura del emulador y envio a LM Studio
-    while True:
+    global run
+    run = True
+
+    while run:
         imagen64 = encode_image()
         action = ask(imagen64)
         opciones(action)
         time.sleep(1)
+
+def detener():
+    #Funcion para detener el agente
+    global run
+    run = False
