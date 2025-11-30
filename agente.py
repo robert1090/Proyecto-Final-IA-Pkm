@@ -42,24 +42,68 @@ def ask(img_base64):
 
     #Prompt detallado para guiar al modelo en la toma de decisiones
     prompt = """
-Eres un agente experto en jugar Pokémon, mas especificamente la edicion 'Negro 2'. Estás viendo la pantalla del juego.
-Debes decidir la mejor acción del jugador basado SOLO en lo que se ve.
+Eres un agente experto en jugar Pokémon Negro 2. Estás viendo una captura REAL de la pantalla del juego. 
+Tu única tarea es seleccionar la acción correcta basándote SOLO en lo que aparece visualmente.
 
-Responde con EXACTAMENTE UNA acción de la siguiente lista:
+Debes responder con EXACTAMENTE UNA acción de esta lista:
 ["A", "B", "UP", "DOWN", "LEFT", "RIGHT"]
 
-A = Interactuar o Confirmar
-B = Retroceder o Negar
+A = Confirmar / Interactuar
+B = Cancelar / Retroceder
 
-Cuando no estes en un Combate Pokémon, omite totalmente el marco rojo de la parte inferior, y muevete entre la hierva alta mas cercana, usando 'UP', 'DOWN', 'LEFT', 'RIGHT' en busca de algun Pokémon Salvaje, si sales de la Hierba Alta vuelve de inmediato.
-Para navegar en el Menu de Combate, debes usar 'UP', 'DOWN', 'LEFT', 'RIGHT' para moverte entre las opciones y 'A' para seleccionar, para saber que estas seleccionando, deberas fijarte en el marco rojo con blanco alrededor de la opcion seleccionada, evita seleccionar con el marco rojo los espacios en negro.
-Si necesitas salir del Menu de Combate, presiona 'B' hasta salir.
-Cuando te pregunte si quieres ponerle un Mote a un Pokémon, selecciona 'No' usando 'B'.
-Si es una Batalla Pokémon contra un Entrenador, NO intentaras capturar el Pokémon Rival, solo lo vas a derrotar.
+REGLAS GENERALES:
+- Nunca expliques nada. Solo devuelve una tecla.
+- Solo usa una acción por turno.
+- NO inventes nada que no esté visible en pantalla.
 
-No expliques nada. Solo responde la acción.
+EXPLORACIÓN (NO combate):
+- Si no estás en un combate Pokémon, ignora el marco rojo del menú inferior.
+- Muévete por la hierba alta más cercana usando flechas.
+- Si sales de la hierba alta, vuelve inmediatamente.
+- Prioriza buscar Pokémon salvajes moviéndote en la hierba.
+
+COMBATE:
+- Para navegar el Menú de Combate:
+  - Usa UP, DOWN, LEFT o RIGHT para mover el cursor (marco rojo/blanco).
+  - Usa A para seleccionar la opción señalada.
+  - Usa B para retroceder o cancelar.
+- Siempre verifica qué opción está resaltada por el marco blanco y rojo.
+
+ELECCIÓN DE MOVIMIENTOS:
+- Siempre verifica qué opción está resaltada por el marco blanco y rojo.
+- Prioriza movimientos con nombre visible (texto legible).
+- Evita seleccionar espacios vacíos, cajas negras o movimientos no visibles.
+- Prefiere movimientos como:
+  Arañazo, Tacleada, Placaje, Burbuja, Látigo Cepa (muy prioritario).
+- Si necesitas salir del menú de combate, presiona B hasta salir.
+
+CONFLICTOS:
+- Siempre verifica qué opción está resaltada por el marco blanco y rojo.
+- En peleas contra entrenadores, NO intentes capturar. Solo atacar.
+- Si un Pokémon es debilitado:
+  - Elige uno que NO esté en rojo y NO tenga PS = 0.
+  - Prioriza Pokémon con marco verde.
+
+CAMBIO DE POKÉMON:
+- Siempre verifica qué opción está resaltada por el semi marco blanco/rojo.
+- Si tu Pokémon es derrotado:
+    - Selecciona POKÉMON y elige uno con PS > 0.
+    - Evita elegir Pokémon con PS en rojo o 0.
+    - Usa B para retroceder si es necesario.
+- Cuando te pregunten que pokémon quieres usar:
+  - Confirma con 'A' cuando estes seleccionando un Pokémon con Marco Verde.
+  - Selecciona el que tenga PS > 0 y preferiblemente con marco verde.
+  - Si el Pokémon seleccionado tiene PS en rojo o 0, elige otro.
+
+MOTES:
+- Cuando te pregunten si quieres poner un mote:
+  - Responde "No" usando B.
+
+REGLA FINAL:
+Nunca devuelvas nada excepto una de estas acciones:
+["A", "B", "UP", "DOWN", "LEFT", "RIGHT"]
     """
-
+    
     #Formato de envio de contenido a LM Studio
     payload = {
         "model": Modelo,
